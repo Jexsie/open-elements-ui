@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "../lib/utils";
-import { useLanguage } from "../i18n/language-context";
+import { cn } from "../lib/utils.ts";
+import { useLanguage } from "../i18n/language-context.tsx";
 
 export function LanguageSwitch() {
   const { language, setLanguage } = useLanguage();

@@ -1,7 +1,7 @@
 // Components
-export { Button, buttonVariants } from "./components/button";
-export { Input } from "./components/input";
-export { Textarea } from "./components/textarea";
+export { Button, buttonVariants } from "./components/button.tsx";
+export { Input } from "./components/input.tsx";
+export { Textarea } from "./components/textarea.tsx";
 export {
   InputGroup,
   InputGroupAddon,
@@ -9,7 +9,7 @@ export {
   InputGroupText,
   InputGroupInput,
   InputGroupTextarea,
-} from "./components/input-group";
+} from "./components/input-group.tsx";
 export {
   Combobox,
   ComboboxInput,
@@ -27,13 +27,13 @@ export {
   ComboboxTrigger,
   ComboboxValue,
   useComboboxAnchor,
-} from "./components/combobox";
-export { TagMultiSelect } from "./components/tag-multi-select";
+} from "./components/combobox.tsx";
+export { TagMultiSelect } from "./components/tag-multi-select.tsx";
 export type {
   TagMultiSelectProps,
   TagMultiSelectTranslations,
   TagOption,
-} from "./components/tag-multi-select";
+} from "./components/tag-multi-select.tsx";
 
 // shadcn/ui components
 export {
@@ -49,9 +49,9 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "./components/alert-dialog";
-export { Badge, badgeVariants } from "./components/badge";
-export { Calendar, CalendarDayButton } from "./components/calendar";
+} from "./components/alert-dialog.tsx";
+export { Badge, badgeVariants } from "./components/badge.tsx";
+export { Calendar, CalendarDayButton } from "./components/calendar.tsx";
 export {
   Card,
   CardHeader,
@@ -60,7 +60,7 @@ export {
   CardAction,
   CardDescription,
   CardContent,
-} from "./components/card";
+} from "./components/card.tsx";
 export {
   Dialog,
   DialogClose,
@@ -72,8 +72,8 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-} from "./components/dialog";
-export { Label } from "./components/label";
+} from "./components/dialog.tsx";
+export { Label } from "./components/label.tsx";
 export {
   Popover,
   PopoverTrigger,
@@ -82,7 +82,7 @@ export {
   PopoverHeader,
   PopoverTitle,
   PopoverDescription,
-} from "./components/popover";
+} from "./components/popover.tsx";
 export {
   Select,
   SelectContent,
@@ -94,8 +94,8 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "./components/select";
-export { Separator } from "./components/separator";
+} from "./components/select.tsx";
+export { Separator } from "./components/separator.tsx";
 export {
   Sheet,
   SheetTrigger,
@@ -105,8 +105,8 @@ export {
   SheetFooter,
   SheetTitle,
   SheetDescription,
-} from "./components/sheet";
-export { Skeleton } from "./components/skeleton";
+} from "./components/sheet.tsx";
+export { Skeleton } from "./components/skeleton.tsx";
 export {
   Table,
   TableHeader,
@@ -116,24 +116,24 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-} from "./components/table";
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./components/tooltip";
+} from "./components/table.tsx";
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./components/tooltip.tsx";
 
 // App-level components
-export { LanguageSwitch } from "./components/language-switch";
-export { HealthStatus } from "./components/health-status";
-export type { HealthStatusProps, HealthStatusTranslations } from "./components/health-status";
-export { TagChips } from "./components/tag-chips";
-export type { TagChipsProps } from "./components/tag-chips";
-export { TagForm } from "./components/tag-form";
-export type { TagFormProps, TagFormTranslations } from "./components/tag-form";
+export { LanguageSwitch } from "./components/language-switch.tsx";
+export { HealthStatus } from "./components/health-status.tsx";
+export type { HealthStatusProps, HealthStatusTranslations } from "./components/health-status.tsx";
+export { TagChips } from "./components/tag-chips.tsx";
+export type { TagChipsProps } from "./components/tag-chips.tsx";
+export { TagForm } from "./components/tag-form.tsx";
+export type { TagFormProps, TagFormTranslations } from "./components/tag-form.tsx";
 export {
   Sidebar,
   SidebarHeader,
   NavItem,
   CollapsibleGroup,
   UserSection,
-} from "./components/sidebar";
+} from "./components/sidebar.tsx";
 export type {
   SidebarProps,
   SidebarHeaderProps,
@@ -141,16 +141,16 @@ export type {
   CollapsibleGroupProps,
   UserSectionProps,
   UserSectionTranslations,
-} from "./components/sidebar";
+} from "./components/sidebar.tsx";
 
 // Types
-export type { TagDto } from "./types";
+export type { TagDto } from "./types/index.ts";
 
 // Utilities
-export { cn } from "./lib/utils";
+export { cn } from "./lib/utils.ts";
 
 // i18n
-export { LanguageProvider, useTranslations, useLanguage } from "./i18n/language-context";
-export type { Language } from "./i18n/language-context";
-export { de } from "./i18n/de";
-export { en } from "./i18n/en";
+export { LanguageProvider, useTranslations, useLanguage } from "./i18n/language-context.tsx";
+export type { Language } from "./i18n/language-context.tsx";
+export { de } from "./i18n/de.ts";
+export { en } from "./i18n/en.ts";

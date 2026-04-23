@@ -1,6 +1,6 @@
 "use client";
 
-import type { TagDto } from "../types";
+import type { TagDto } from "../types/index.ts";
 
 function getContrastColor(hex: string): string {
   const r = parseInt(hex.slice(1, 3), 16);

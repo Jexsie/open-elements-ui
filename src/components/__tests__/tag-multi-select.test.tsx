@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import { TagMultiSelect } from "../tag-multi-select";
-import type { TagOption, TagMultiSelectTranslations } from "../../types";
+import { TagMultiSelect } from "../tag-multi-select.tsx";
+import type { TagOption, TagMultiSelectTranslations } from "../../types/index.ts";
 
 const mockTranslations: TagMultiSelectTranslations = {
   placeholder: "Choose tags...",

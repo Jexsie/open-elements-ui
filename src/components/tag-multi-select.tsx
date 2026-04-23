@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { TagOption, TagMultiSelectProps, TagMultiSelectTranslations } from "../types";
+import type { TagOption, TagMultiSelectProps, TagMultiSelectTranslations } from "../types/index.ts";
 import {
   Combobox,
   ComboboxChips,
@@ -11,7 +11,7 @@ import {
   ComboboxItem,
   ComboboxList,
   useComboboxAnchor,
-} from "./combobox";
+} from "./combobox.tsx";
 
 function isValidHex(color: string): boolean {
   return /^#[0-9A-Fa-f]{6}$/.test(color);

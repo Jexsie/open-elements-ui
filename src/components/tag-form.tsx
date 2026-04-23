@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Check } from "lucide-react";
-import { cn } from "../lib/utils";
-import { Button } from "./button";
-import { Input } from "./input";
-import { Textarea } from "./textarea";
-import { Label } from "./label";
-import { Card, CardContent, CardHeader, CardTitle } from "./card";
-import type { TagDto } from "../types";
+import { cn } from "../lib/utils.ts";
+import { Button } from "./button.tsx";
+import { Input } from "./input.tsx";
+import { Textarea } from "./textarea.tsx";
+import { Label } from "./label.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "./card.tsx";
+import type { TagDto } from "../types/index.ts";
 
 const PALETTE_COLORS = [
   "#EF4444",

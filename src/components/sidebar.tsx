@@ -3,11 +3,11 @@
 import * as React from "react";
 import { useState } from "react";
 import { ChevronDown, CircleUser, LayoutDashboard, LogOut, Menu } from "lucide-react";
-import { cn } from "../lib/utils";
-import { Button } from "./button";
-import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./sheet";
-import { LanguageSwitch } from "./language-switch";
+import { cn } from "../lib/utils.ts";
+import { Button } from "./button.tsx";
+import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip.tsx";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./sheet.tsx";
+import { LanguageSwitch } from "./language-switch.tsx";
 
 // --- NavItem ---
 
