@@ -25,7 +25,12 @@ function getContrastColor(hex: string): string {
   return luminance > 0.5 ? "#1A1A1A" : "#FFFFFF";
 }
 
-export function TagMultiSelect({ selectedIds, onChange, loadTags, translations }: TagMultiSelectProps) {
+export function TagMultiSelect({
+  selectedIds,
+  onChange,
+  loadTags,
+  translations,
+}: TagMultiSelectProps) {
   const [tagOptions, setTagOptions] = useState<TagOption[]>([]);
   const anchorRef = useComboboxAnchor();
 
@@ -48,10 +53,7 @@ export function TagMultiSelect({ selectedIds, onChange, loadTags, translations }
           const bgColor = isValidHex(opt.color) ? opt.color : "#6B7280";
           const textColor = isValidHex(opt.color) ? getContrastColor(opt.color) : "#FFFFFF";
           return (
-            <ComboboxChip
-              key={opt.value}
-              style={{ backgroundColor: bgColor, color: textColor }}
-            >
+            <ComboboxChip key={opt.value} style={{ backgroundColor: bgColor, color: textColor }}>
               {opt.label}
             </ComboboxChip>
           );

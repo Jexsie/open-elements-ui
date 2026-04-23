@@ -106,9 +106,9 @@ describe("TagMultiSelect", () => {
   });
 
   it("uses fallback color for invalid hex", async () => {
-    const loadTags = vi.fn().mockResolvedValue([
-      { value: "1", label: "Bad Color", color: "not-a-color" },
-    ]);
+    const loadTags = vi
+      .fn()
+      .mockResolvedValue([{ value: "1", label: "Bad Color", color: "not-a-color" }]);
 
     render(
       <TagMultiSelect

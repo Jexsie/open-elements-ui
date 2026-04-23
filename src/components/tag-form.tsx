@@ -11,9 +11,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import type { TagDto } from "../types";
 
 const PALETTE_COLORS = [
-  "#EF4444", "#F97316", "#F59E0B", "#EAB308",
-  "#84CC16", "#22C55E", "#14B8A6", "#06B6D4",
-  "#3B82F6", "#6366F1", "#A855F7", "#EC4899",
+  "#EF4444",
+  "#F97316",
+  "#F59E0B",
+  "#EAB308",
+  "#84CC16",
+  "#22C55E",
+  "#14B8A6",
+  "#06B6D4",
+  "#3B82F6",
+  "#6366F1",
+  "#A855F7",
+  "#EC4899",
 ];
 
 const HEX_REGEX = /^#[0-9A-Fa-f]{6}$/;
@@ -44,7 +53,11 @@ interface TagFormTranslations {
 
 interface TagFormProps {
   readonly tag?: TagDto;
-  readonly onSave: (data: { name: string; description: string | null; color: string }) => Promise<void>;
+  readonly onSave: (data: {
+    name: string;
+    description: string | null;
+    color: string;
+  }) => Promise<void>;
   readonly onCancel: () => void;
   readonly translations: TagFormTranslations;
 }
@@ -87,9 +100,7 @@ export function TagForm({ tag, onSave, onCancel, translations: t }: TagFormProps
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="mb-6 font-heading text-2xl font-bold text-oe-dark">
-        {t.title}
-      </h1>
+      <h1 className="mb-6 font-heading text-2xl font-bold text-oe-dark">{t.title}</h1>
       <Card>
         <CardHeader>
           <CardTitle>{t.title}</CardTitle>
@@ -101,7 +112,10 @@ export function TagForm({ tag, onSave, onCancel, translations: t }: TagFormProps
               <Input
                 id="name"
                 value={name}
-                onChange={(e) => { setName(e.target.value); setErrors((prev) => ({ ...prev, name: undefined })); }}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setErrors((prev) => ({ ...prev, name: undefined }));
+                }}
                 placeholder={t.namePlaceholder}
               />
               {errors.name && <p className="text-sm text-oe-red">{errors.name}</p>}
@@ -132,7 +146,10 @@ export function TagForm({ tag, onSave, onCancel, translations: t }: TagFormProps
                         : "border-transparent hover:border-oe-gray-light",
                     )}
                     style={{ backgroundColor: c }}
-                    onClick={() => { setColor(c); setErrors((prev) => ({ ...prev, color: undefined })); }}
+                    onClick={() => {
+                      setColor(c);
+                      setErrors((prev) => ({ ...prev, color: undefined }));
+                    }}
                   >
                     {color.toUpperCase() === c.toUpperCase() && (
                       <Check className="h-4 w-4" style={{ color: getContrastColor(c) }} />
@@ -144,7 +161,10 @@ export function TagForm({ tag, onSave, onCancel, translations: t }: TagFormProps
                 <Input
                   id="color"
                   value={color}
-                  onChange={(e) => { setColor(e.target.value); setErrors((prev) => ({ ...prev, color: undefined })); }}
+                  onChange={(e) => {
+                    setColor(e.target.value);
+                    setErrors((prev) => ({ ...prev, color: undefined }));
+                  }}
                   placeholder={t.colorPlaceholder}
                   className="max-w-40"
                 />
@@ -166,11 +186,7 @@ export function TagForm({ tag, onSave, onCancel, translations: t }: TagFormProps
               >
                 {t.save}
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onCancel}
-              >
+              <Button type="button" variant="outline" onClick={onCancel}>
                 {t.cancel}
               </Button>
             </div>

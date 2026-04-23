@@ -5,22 +5,22 @@
   --color-oe-white: #ffffff;
   --color-oe-gray-mid: #b0aea5;
   --color-oe-gray-light: #e8e6dc;
-  --color-oe-green: #5CBA9E;
-  --color-oe-green-light: #BEE3D8;
-  --color-oe-green-lighter: #DEF1EC;
-  --color-oe-green-dark: #3E9279;
-  --color-oe-red: #E63277;
-  --color-oe-red-light: #F5ADC9;
-  --color-oe-red-lighter: #FAD6E4;
-  --color-oe-red-dark: #BB1756;
-  --color-oe-blue: #5DB9F5;
-  --color-oe-blue-light: #BEE3FB;
-  --color-oe-blue-lighter: #DFF1FD;
-  --color-oe-blue-dark: #2496EF;
-  --color-oe-yellow: #F1E34B;
-  --color-oe-yellow-light: #F9F4B7;
-  --color-oe-yellow-lighter: #FCF9DB;
-  --color-oe-yellow-dark: #DCCB12;
+  --color-oe-green: #5cba9e;
+  --color-oe-green-light: #bee3d8;
+  --color-oe-green-lighter: #def1ec;
+  --color-oe-green-dark: #3e9279;
+  --color-oe-red: #e63277;
+  --color-oe-red-light: #f5adc9;
+  --color-oe-red-lighter: #fad6e4;
+  --color-oe-red-dark: #bb1756;
+  --color-oe-blue: #5db9f5;
+  --color-oe-blue-light: #bee3fb;
+  --color-oe-blue-lighter: #dff1fd;
+  --color-oe-blue-dark: #2496ef;
+  --color-oe-yellow: #f1e34b;
+  --color-oe-yellow-light: #f9f4b7;
+  --color-oe-yellow-lighter: #fcf9db;
+  --color-oe-yellow-dark: #dccb12;
 
   /* shadcn/ui semantic tokens mapped to Open Elements brand */
   --color-background: #ffffff;
@@ -33,15 +33,15 @@
   --color-muted-foreground: #b0aea5;
   --color-accent: #e8e6dc;
   --color-accent-foreground: #000000;
-  --color-primary: #5CBA9E;
+  --color-primary: #5cba9e;
   --color-primary-foreground: #ffffff;
   --color-secondary: #e8e6dc;
   --color-secondary-foreground: #000000;
-  --color-destructive: #E63277;
+  --color-destructive: #e63277;
   --color-destructive-foreground: #ffffff;
   --color-border: #e8e6dc;
   --color-input: #e8e6dc;
-  --color-ring: #5CBA9E;
+  --color-ring: #5cba9e;
 
   --font-heading: "Montserrat", sans-serif;
   --font-body: "Lato", sans-serif;

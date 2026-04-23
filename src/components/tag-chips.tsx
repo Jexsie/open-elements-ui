@@ -24,9 +24,7 @@ export function TagChips({ tags, label }: TagChipsProps) {
 
   return (
     <div className="mt-4">
-      {label && (
-        <h3 className="mb-2 text-sm font-medium text-oe-gray">{label}</h3>
-      )}
+      {label && <h3 className="mb-2 text-sm font-medium text-oe-gray">{label}</h3>}
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => {
           const bgColor = isValidHex(tag.color) ? tag.color : "#6B7280";

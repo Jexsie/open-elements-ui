@@ -41,7 +41,11 @@ interface LanguageProviderProps<T> {
   readonly children: React.ReactNode;
 }
 
-export function LanguageProvider<T>({ translations, children, defaultLanguage }: LanguageProviderProps<T>) {
+export function LanguageProvider<T>({
+  translations,
+  children,
+  defaultLanguage,
+}: LanguageProviderProps<T>) {
   const [language, setLanguageState] = useState<Language>(defaultLanguage ?? "en");
   const [mounted, setMounted] = useState(!!defaultLanguage);
 
@@ -78,10 +82,7 @@ export function LanguageProvider<T>({ translations, children, defaultLanguage }:
 
   const t = useMemo(() => translations[language], [translations, language]);
 
-  const value = useMemo(
-    () => ({ language, setLanguage, t }),
-    [language, setLanguage, t],
-  );
+  const value = useMemo(() => ({ language, setLanguage, t }), [language, setLanguage, t]);
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }

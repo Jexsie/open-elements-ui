@@ -2,26 +2,11 @@
 
 import * as React from "react";
 import { useState } from "react";
-import {
-  ChevronDown,
-  CircleUser,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-} from "lucide-react";
+import { ChevronDown, CircleUser, LayoutDashboard, LogOut, Menu } from "lucide-react";
 import { cn } from "../lib/utils";
 import { Button } from "./button";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "./tooltip";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetTitle,
-} from "./sheet";
+import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./sheet";
 import { LanguageSwitch } from "./language-switch";
 
 // --- NavItem ---
@@ -64,7 +49,13 @@ interface CollapsibleGroupProps {
   readonly children: React.ReactNode;
 }
 
-function CollapsibleGroup({ icon, label, defaultOpen = false, active, children }: CollapsibleGroupProps) {
+function CollapsibleGroup({
+  icon,
+  label,
+  defaultOpen = false,
+  active,
+  children,
+}: CollapsibleGroupProps) {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
@@ -74,25 +65,16 @@ function CollapsibleGroup({ icon, label, defaultOpen = false, active, children }
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
           "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors w-full text-left",
-          active
-            ? "text-oe-white"
-            : "text-oe-white/70 hover:bg-oe-white/10 hover:text-oe-white",
+          active ? "text-oe-white" : "text-oe-white/70 hover:bg-oe-white/10 hover:text-oe-white",
         )}
       >
         {icon}
         {label}
         <ChevronDown
-          className={cn(
-            "ml-auto h-4 w-4 transition-transform",
-            open ? "rotate-0" : "-rotate-90",
-          )}
+          className={cn("ml-auto h-4 w-4 transition-transform", open ? "rotate-0" : "-rotate-90")}
         />
       </button>
-      {open && (
-        <div className="flex flex-col gap-1">
-          {children}
-        </div>
-      )}
+      {open && <div className="flex flex-col gap-1">{children}</div>}
     </>
   );
 }
@@ -114,23 +96,22 @@ interface UserSectionProps {
   readonly translations: UserSectionTranslations;
 }
 
-function UserSection({ userName, avatarUrl, roles, onAvatarClick, onLogout, translations: t }: UserSectionProps) {
+function UserSection({
+  userName,
+  avatarUrl,
+  roles,
+  onAvatarClick,
+  onLogout,
+  translations: t,
+}: UserSectionProps) {
   return (
     <div className="border-t border-oe-white/10 px-6 py-4">
       <div className="flex items-center gap-3">
         <Tooltip>
           <TooltipTrigger asChild>
-            <button
-              type="button"
-              onClick={onAvatarClick}
-              className="shrink-0"
-            >
+            <button type="button" onClick={onAvatarClick} className="shrink-0">
               {avatarUrl ? (
-                <img
-                  src={avatarUrl}
-                  alt={userName}
-                  className="h-8 w-8 rounded-full object-cover"
-                />
+                <img src={avatarUrl} alt={userName} className="h-8 w-8 rounded-full object-cover" />
               ) : (
                 <CircleUser className="h-8 w-8 text-oe-gray-light" />
               )}
@@ -141,12 +122,12 @@ function UserSection({ userName, avatarUrl, roles, onAvatarClick, onLogout, tran
         <div className="flex-1 min-w-0">
           <Tooltip>
             <TooltipTrigger asChild>
-              <p className="text-sm font-medium text-oe-white truncate cursor-default">{userName}</p>
+              <p className="text-sm font-medium text-oe-white truncate cursor-default">
+                {userName}
+              </p>
             </TooltipTrigger>
             <TooltipContent>
-              {roles && roles.length > 0
-                ? roles.join(", ")
-                : t.noRoles}
+              {roles && roles.length > 0 ? roles.join(", ") : t.noRoles}
             </TooltipContent>
           </Tooltip>
         </div>
@@ -177,7 +158,12 @@ interface SidebarHeaderProps {
   readonly developedByText?: string;
 }
 
-function SidebarHeader({ appTitle, logoIcon, homeHref = "/", developedByText = "Developed by" }: SidebarHeaderProps) {
+function SidebarHeader({
+  appTitle,
+  logoIcon,
+  homeHref = "/",
+  developedByText = "Developed by",
+}: SidebarHeaderProps) {
   return (
     <div className="border-b border-oe-white/10 px-6 py-4">
       <a href={homeHref} className="flex items-center gap-3">
@@ -191,11 +177,7 @@ function SidebarHeader({ appTitle, logoIcon, homeHref = "/", developedByText = "
         className="mt-2 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity"
       >
         <span className="text-xs text-oe-gray-light">{developedByText}</span>
-        <img
-          src="/oe-logo-landscape-dark.svg"
-          alt="Open Elements"
-          className="h-4"
-        />
+        <img src="/oe-logo-landscape-dark.svg" alt="Open Elements" className="h-4" />
       </a>
     </div>
   );
@@ -245,13 +227,9 @@ function Sidebar({
       <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 bg-oe-dark">
         {headerContent}
         <div className="flex flex-1 flex-col">
-          <nav className="flex flex-col gap-1 px-3 py-4">
-            {children}
-          </nav>
+          <nav className="flex flex-col gap-1 px-3 py-4">{children}</nav>
           {bottomChildren && (
-            <div className="mt-auto flex flex-col gap-1 px-3 pb-2">
-              {bottomChildren}
-            </div>
+            <div className="mt-auto flex flex-col gap-1 px-3 pb-2">{bottomChildren}</div>
           )}
         </div>
         {bottomSection}
@@ -279,16 +257,17 @@ function Sidebar({
                 {React.Children.map(children, (child) => {
                   if (React.isValidElement<NavItemProps>(child) && child.type === NavItem) {
                     return React.cloneElement(child, {
-                      onClick: () => { child.props.onClick?.(); setOpen(false); },
+                      onClick: () => {
+                        child.props.onClick?.();
+                        setOpen(false);
+                      },
                     });
                   }
                   return child;
                 })}
               </nav>
               {bottomChildren && (
-                <div className="mt-auto flex flex-col gap-1 px-3 pb-2">
-                  {bottomChildren}
-                </div>
+                <div className="mt-auto flex flex-col gap-1 px-3 pb-2">{bottomChildren}</div>
               )}
             </div>
             {bottomSection}
@@ -300,13 +279,7 @@ function Sidebar({
   );
 }
 
-export {
-  Sidebar,
-  SidebarHeader,
-  NavItem,
-  CollapsibleGroup,
-  UserSection,
-};
+export { Sidebar, SidebarHeader, NavItem, CollapsibleGroup, UserSection };
 export type {
   SidebarProps,
   SidebarHeaderProps,
