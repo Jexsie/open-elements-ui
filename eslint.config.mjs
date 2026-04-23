@@ -3,11 +3,12 @@ import js from "@eslint/js";
 export default [
   js.configs.recommended,
   {
+    files: ["src/**/*.{ts,tsx}"],
     rules: {
       "no-unused-vars": "warn",
     },
   },
   {
-    ignores: ["node_modules/"],
+    ignores: ["node_modules/", "dist/"],
   },
 ];
