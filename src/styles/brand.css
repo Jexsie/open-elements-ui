@@ -1,0 +1,48 @@
+@theme {
+  /* Open Elements Brand Colors */
+  --color-oe-dark: #020144;
+  --color-oe-black: #000000;
+  --color-oe-white: #ffffff;
+  --color-oe-gray-mid: #b0aea5;
+  --color-oe-gray-light: #e8e6dc;
+  --color-oe-green: #5CBA9E;
+  --color-oe-green-light: #BEE3D8;
+  --color-oe-green-lighter: #DEF1EC;
+  --color-oe-green-dark: #3E9279;
+  --color-oe-red: #E63277;
+  --color-oe-red-light: #F5ADC9;
+  --color-oe-red-lighter: #FAD6E4;
+  --color-oe-red-dark: #BB1756;
+  --color-oe-blue: #5DB9F5;
+  --color-oe-blue-light: #BEE3FB;
+  --color-oe-blue-lighter: #DFF1FD;
+  --color-oe-blue-dark: #2496EF;
+  --color-oe-yellow: #F1E34B;
+  --color-oe-yellow-light: #F9F4B7;
+  --color-oe-yellow-lighter: #FCF9DB;
+  --color-oe-yellow-dark: #DCCB12;
+
+  /* shadcn/ui semantic tokens mapped to Open Elements brand */
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-card: #ffffff;
+  --color-card-foreground: #000000;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #000000;
+  --color-muted: #e8e6dc;
+  --color-muted-foreground: #b0aea5;
+  --color-accent: #e8e6dc;
+  --color-accent-foreground: #000000;
+  --color-primary: #5CBA9E;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #e8e6dc;
+  --color-secondary-foreground: #000000;
+  --color-destructive: #E63277;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #e8e6dc;
+  --color-input: #e8e6dc;
+  --color-ring: #5CBA9E;
+
+  --font-heading: "Montserrat", sans-serif;
+  --font-body: "Lato", sans-serif;
+}
