@@ -34,7 +34,7 @@ export function UserMultiSelect({
           u.name.toLowerCase().includes(search.toLowerCase()) ||
           u.email.toLowerCase().includes(search.toLowerCase()),
       )
-    : [...users];
+    : users;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -119,9 +119,7 @@ export function UserMultiSelect({
                 <UserAvatar user={user} size="md" />
                 <div className="flex flex-col items-start overflow-hidden">
                   <span className="truncate font-medium">{user.name}</span>
-                  {user.email && (
-                    <span className="text-muted-foreground truncate text-xs">{user.email}</span>
-                  )}
+                  <span className="text-muted-foreground truncate text-xs">{user.email}</span>
                 </div>
               </button>
             );
