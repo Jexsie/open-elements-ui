@@ -35,9 +35,11 @@ pnpm run lint
 pnpm run format:check
 pnpm run test
 pnpm run build
-git commit -am "Version $NEW_VERSION"
+if ! git diff --quiet; then
+  git commit -am "Version $NEW_VERSION"
+  git push
+fi
 git tag "v$NEW_VERSION"
-git push
 git push origin "v$NEW_VERSION"
 pnpm publish --access public
 gh release create "v$NEW_VERSION" --generate-notes
