@@ -25,9 +25,16 @@ NEW_VERSION="$1"
 NEXT_VERSION="$2"
 
 echo "Releasing version $NEW_VERSION"
-pnpm version "$NEW_VERSION" --no-git-tag-version
-pnpm run build
+CURRENT_VERSION=$(node -p "require('./package.json').version")
+if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+  pnpm version "$NEW_VERSION" --no-git-tag-version
+fi
+pnpm install --frozen-lockfile
+pnpm run typecheck
+pnpm run lint
+pnpm run format:check
 pnpm run test
+pnpm run build
 git commit -am "Version $NEW_VERSION"
 git tag "v$NEW_VERSION"
 git push
