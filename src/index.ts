@@ -147,8 +147,24 @@ export type {
   UserSectionTranslations,
 } from "./components/sidebar.tsx";
 
+// Markdown components
+export { MarkdownEditor } from "./components/markdown-editor.tsx";
+export { MarkdownView } from "./components/markdown-view.tsx";
+
+// User components
+export { UserAvatar } from "./components/user-avatar.tsx";
+export { UserMultiSelect } from "./components/user-multi-select.tsx";
+
 // Types
 export type { TagDto } from "./types/index.ts";
+export type {
+  UserOption,
+  UserAvatarProps,
+  UserMultiSelectProps,
+  UserMultiSelectTranslations,
+  MarkdownEditorProps,
+  MarkdownViewProps,
+} from "./types/index.ts";
 
 // Utilities
 export { cn } from "./lib/utils.ts";
