@@ -120,6 +120,10 @@ export {
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./components/tooltip.tsx";
 
 // App-level components
+export { DeleteConfirmDialog } from "./components/delete-confirm-dialog.tsx";
+export type { DeleteConfirmDialogProps } from "./components/delete-confirm-dialog.tsx";
+export { DetailField } from "./components/detail-field.tsx";
+export type { DetailFieldProps, DetailFieldTranslations } from "./components/detail-field.tsx";
 export { LanguageSwitch } from "./components/language-switch.tsx";
 export { HealthStatus } from "./components/health-status.tsx";
 export type { HealthStatusProps, HealthStatusTranslations } from "./components/health-status.tsx";
