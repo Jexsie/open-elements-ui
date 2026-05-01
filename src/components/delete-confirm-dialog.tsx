@@ -52,7 +52,7 @@ export function DeleteConfirmDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{error ? errorTitle ?? title : title}</AlertDialogTitle>
+          <AlertDialogTitle>{error ? (errorTitle ?? title) : title}</AlertDialogTitle>
           <AlertDialogDescription>{error ?? description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
