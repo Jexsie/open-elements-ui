@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e  # Exit the script if any command fails
 
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
 if [ -z "$1" ]; then
   echo "Please provide the version to release and the next development version. Example: ./release.sh 0.2.0 0.3.0"
   exit 1
