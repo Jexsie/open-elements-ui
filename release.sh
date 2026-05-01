@@ -41,7 +41,7 @@ if ! git diff --quiet; then
 fi
 git tag "v$NEW_VERSION"
 git push origin "v$NEW_VERSION"
-pnpm publish --access public
+pnpm publish --access public --no-git-checks
 gh release create "v$NEW_VERSION" --generate-notes
 
 echo "Setting version to $NEXT_VERSION"
