@@ -21,7 +21,11 @@ export function MarkdownView({ content }: MarkdownViewProps) {
       }),
       Link.configure({
         openOnClick: true,
-        HTMLAttributes: { class: "text-blue-600 underline", target: "_blank", rel: "noopener noreferrer" },
+        HTMLAttributes: {
+          class: "text-blue-600 underline",
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
       }),
       Markdown,
     ],

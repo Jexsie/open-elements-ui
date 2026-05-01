@@ -26,9 +26,7 @@ describe("MarkdownView", () => {
   });
 
   it("accepts markdown content without error", () => {
-    const { container } = render(
-      <MarkdownView content="Hello **bold** and *italic*" />,
-    );
+    const { container } = render(<MarkdownView content="Hello **bold** and *italic*" />);
     expect(container).toBeTruthy();
   });
 });

@@ -17,16 +17,12 @@ afterEach(cleanup);
 
 describe("MarkdownEditor", () => {
   it("mounts without error", () => {
-    const { container } = render(
-      <MarkdownEditor value="" onChange={() => {}} />,
-    );
+    const { container } = render(<MarkdownEditor value="" onChange={() => {}} />);
     expect(container).toBeTruthy();
   });
 
   it("renders editor content area", () => {
-    const { container } = render(
-      <MarkdownEditor value="" onChange={() => {}} />,
-    );
+    const { container } = render(<MarkdownEditor value="" onChange={() => {}} />);
     expect(container.querySelector("[data-testid='editor-content']")).toBeTruthy();
   });
 

@@ -125,9 +125,7 @@ export function UserMultiSelect({
             );
           })}
           {filteredUsers.length === 0 && (
-            <p className="text-muted-foreground py-4 text-center text-sm">
-              {translations.empty}
-            </p>
+            <p className="text-muted-foreground py-4 text-center text-sm">{translations.empty}</p>
           )}
         </div>
       </PopoverContent>
