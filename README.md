@@ -65,3 +65,4 @@ The script performs the following steps:
 
 - You must be logged in to npm with publish access to the `@open-elements` scope (`pnpm login`).
 - The [GitHub CLI (`gh`)](https://cli.github.com/) must be installed and authenticated.
+- The `NPM_TOKEN` and `GH_TOKEN` environment variables must be set (in .env file).
