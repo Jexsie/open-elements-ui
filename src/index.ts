@@ -155,6 +155,18 @@ export { MarkdownView } from "./components/markdown-view.tsx";
 export { UserAvatar } from "./components/user-avatar.tsx";
 export { UserMultiSelect } from "./components/user-multi-select.tsx";
 
+// Action buttons
+export { ActionIconButton } from "./components/action-icon-button.tsx";
+export { CopyToClipboardButton } from "./components/copy-to-clipboard-button.tsx";
+export { ExternalLinkButton } from "./components/external-link-button.tsx";
+export { MailtoButton } from "./components/mailto-button.tsx";
+export { TooltipIconButton } from "./components/tooltip-icon-button.tsx";
+export type { TooltipIconButtonProps } from "./components/tooltip-icon-button.tsx";
+
+// Table pagination
+export { TablePagination } from "./components/table-pagination.tsx";
+export type { PaginationTranslations } from "./components/table-pagination.tsx";
+
 // Types
 export type { TagDto } from "./types/index.ts";
 export type {
