@@ -115,8 +115,7 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
     content: value,
     immediatelyRender: false,
     onUpdate: ({ editor: ed }) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onChange((ed.storage as any).markdown.getMarkdown());
+      onChange(ed.storage.markdown.getMarkdown());
     },
     editorProps: {
       attributes: {
@@ -127,8 +126,7 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
 
   useEffect(() => {
     if (!editor) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const currentMarkdown = (editor.storage as any).markdown.getMarkdown();
+    const currentMarkdown = editor.storage.markdown.getMarkdown();
     if (value !== currentMarkdown) {
       editor.commands.setContent(value);
     }
