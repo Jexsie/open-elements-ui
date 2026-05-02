@@ -19,14 +19,14 @@ You are working inside an app that depends on `@open-elements/ui`. Goal: upgrade
 
 Six new components are exported from `@open-elements/ui`. They use semantic tokens (`primary`, `destructive`, `muted-foreground`) so brand overrides keep working from `brand.css`.
 
-| Export | Purpose |
-| --- | --- |
-| `ActionIconButton` | Tiny inline icon button with `default` \| `success` tones. Auto-`stopPropagation`, no chrome. Building block for the buttons below. |
-| `CopyToClipboardButton` | Composes `ActionIconButton` with a 2 s `Copy` ↔ `Check` feedback animation. |
-| `MailtoButton` | Opens a `mailto:` URL via `ActionIconButton`. |
-| `ExternalLinkButton` | Opens a URL in a new tab with `noopener,noreferrer`. |
-| `TooltipIconButton` | Ghost icon `Button` wrapped in `Tooltip`, `default` \| `destructive` tones. Includes the disabled-button-needs-`<span>` Tooltip workaround and an `asChild` variant for navigation use cases. Also exports `TooltipIconButtonProps`. |
-| `TablePagination` | `Select` + per-page label + plural-aware total + prev/next (only when `totalPages > 1`). Owns the `localStorage` write for the page-size preference. Also exports `PaginationTranslations`. |
+| Export                  | Purpose                                                                                                                                                                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ActionIconButton`      | Tiny inline icon button with `default` \| `success` tones. Auto-`stopPropagation`, no chrome. Building block for the buttons below.                                                                                                  |
+| `CopyToClipboardButton` | Composes `ActionIconButton` with a 2 s `Copy` ↔ `Check` feedback animation.                                                                                                                                                          |
+| `MailtoButton`          | Opens a `mailto:` URL via `ActionIconButton`.                                                                                                                                                                                        |
+| `ExternalLinkButton`    | Opens a URL in a new tab with `noopener,noreferrer`.                                                                                                                                                                                 |
+| `TooltipIconButton`     | Ghost icon `Button` wrapped in `Tooltip`, `default` \| `destructive` tones. Includes the disabled-button-needs-`<span>` Tooltip workaround and an `asChild` variant for navigation use cases. Also exports `TooltipIconButtonProps`. |
+| `TablePagination`       | `Select` + per-page label + plural-aware total + prev/next (only when `totalPages > 1`). Owns the `localStorage` write for the page-size preference. Also exports `PaginationTranslations`.                                          |
 
 There are **no** breaking changes, **no** removed exports, and **no** dependency manifest changes. If you only bump the version and run `pnpm install`, everything will still work.
 
@@ -56,7 +56,6 @@ There are **no** breaking changes, **no** removed exports, and **no** dependency
    - **Local file imports from a relative path** (`./action-icon-button`, `../components/...`) → the import target is the candidate; rewrite to `@open-elements/ui`.
 
 4. **For each candidate local component, verify behavioural parity** before deleting. Open the local file alongside the library version and confirm:
-
    - Same props, same defaults (`tone = "default"`, etc.).
    - Same className strings / tone tokens.
    - Same side effects (e.g. `event.stopPropagation()`, `noopener,noreferrer`, `localStorage.setItem`).
