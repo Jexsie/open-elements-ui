@@ -1,6 +1,6 @@
-# Upgrade prompt: `@open-elements/ui` 0.5.x → 0.6.0
+# Upgrade prompt: `@open-elements/ui` 0.4.x → 0.5.0
 
-`@open-elements/ui` 0.6.0 reorganises its dependency manifest: implementation-detail libraries moved from `peerDependencies` to regular `dependencies` so they install transitively. Consumer apps that listed those libs only to satisfy the peer-dep constraint can now drop them.
+`@open-elements/ui` 0.5.0 reorganises its dependency manifest: implementation-detail libraries moved from `peerDependencies` to regular `dependencies` so they install transitively. Consumer apps that listed those libs only to satisfy the peer-dep constraint can now drop them.
 
 This file is a self-contained prompt for an agent (Claude Code, etc.) to run inside a consumer repo. Paste it verbatim.
 
@@ -8,9 +8,9 @@ This file is a self-contained prompt for an agent (Claude Code, etc.) to run ins
 
 ## Prompt
 
-You are working inside an app that depends on `@open-elements/ui`. Goal: upgrade to `^0.6.0` and remove dependencies that are now transitive.
+You are working inside an app that depends on `@open-elements/ui`. Goal: upgrade to `^0.5.0` and remove dependencies that are now transitive.
 
-### What changed in 0.6.0
+### What changed in 0.5.0
 
 These libs moved from `peerDependencies` to regular `dependencies` inside `@open-elements/ui`. Consumers no longer need to declare them — they install transitively:
 
@@ -32,7 +32,7 @@ These remain `peerDependencies` and must stay in the consumer's `package.json`:
 
 1. **Find the consumer's frontend package.json.** Usually `package.json` at repo root or under `frontend/`. Confirm `@open-elements/ui` is listed.
 
-2. **Bump `@open-elements/ui` to `^0.6.0`** in that `package.json`.
+2. **Bump `@open-elements/ui` to `^0.5.0`** in that `package.json`.
 
 3. **For each of the 11 libs above, grep the source directory for direct imports** (typically `src/`, exclude `node_modules` and `dist`):
 
@@ -56,7 +56,7 @@ These remain `peerDependencies` and must stay in the consumer's `package.json`:
    grep -rln "declare module \"@tiptap/core\"" src
    ```
 
-   If a file like `src/types/tiptap-markdown.d.ts` exists AND nothing in `src/` calls `editor.storage.markdown`, the augmentation is dead — `@open-elements/ui` 0.6.0 ships its own internal augmentation. Verify:
+   If a file like `src/types/tiptap-markdown.d.ts` exists AND nothing in `src/` calls `editor.storage.markdown`, the augmentation is dead — `@open-elements/ui` 0.5.0 ships its own internal augmentation. Verify:
 
    ```bash
    grep -rn "storage\.markdown\|storage\[\"markdown" src
@@ -79,7 +79,7 @@ These remain `peerDependencies` and must stay in the consumer's `package.json`:
 7. **Commit** with a clear message, e.g.:
 
    ```
-   chore(deps): upgrade @open-elements/ui to 0.6.0, drop now-transitive deps
+   chore(deps): upgrade @open-elements/ui to 0.5.0, drop now-transitive deps
 
    <list the deps you removed>
    ```
