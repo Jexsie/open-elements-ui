@@ -29,9 +29,7 @@ describe("TooltipIconButton", () => {
 
   it("calls onClick when clicked", () => {
     const handleClick = vi.fn();
-    renderWithTooltip(
-      <TooltipIconButton icon={<Pencil />} tooltip="Edit" onClick={handleClick} />,
-    );
+    renderWithTooltip(<TooltipIconButton icon={<Pencil />} tooltip="Edit" onClick={handleClick} />);
     fireEvent.click(screen.getByRole("button"));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -60,9 +58,7 @@ describe("TooltipIconButton", () => {
   });
 
   it("applies the default (primary) tone class when tone is omitted", () => {
-    renderWithTooltip(
-      <TooltipIconButton icon={<Pencil />} tooltip="Edit" onClick={() => {}} />,
-    );
+    renderWithTooltip(<TooltipIconButton icon={<Pencil />} tooltip="Edit" onClick={() => {}} />);
     expect(screen.getByRole("button").className).toContain("text-primary");
   });
 

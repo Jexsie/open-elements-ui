@@ -10,7 +10,12 @@ type MailtoButtonProps = {
 
 export function MailtoButton({ email, title }: MailtoButtonProps) {
   return (
-    <ActionIconButton onClick={() => { window.location.href = `mailto:${email}`; }} title={title}>
+    <ActionIconButton
+      onClick={() => {
+        window.location.href = `mailto:${email}`;
+      }}
+      title={title}
+    >
       <Mail />
     </ActionIconButton>
   );

@@ -13,8 +13,7 @@ type ActionIconButtonProps = {
 };
 
 const TONE_CLASS: Record<Tone, string> = {
-  default:
-    "text-muted-foreground hover:text-foreground [@media(pointer:coarse)]:text-foreground",
+  default: "text-muted-foreground hover:text-foreground [@media(pointer:coarse)]:text-foreground",
   success: "text-primary",
 };
 

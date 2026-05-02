@@ -1,13 +1,7 @@
 "use client";
 
 import { Button } from "./button.tsx";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./select.tsx";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select.tsx";
 
 export type PaginationTranslations = {
   readonly perPage: string;

@@ -11,7 +11,9 @@ type ExternalLinkButtonProps = {
 export function ExternalLinkButton({ href, title }: ExternalLinkButtonProps) {
   return (
     <ActionIconButton
-      onClick={() => { window.open(href, "_blank", "noopener,noreferrer"); }}
+      onClick={() => {
+        window.open(href, "_blank", "noopener,noreferrer");
+      }}
       title={title}
     >
       <ExternalLink />
