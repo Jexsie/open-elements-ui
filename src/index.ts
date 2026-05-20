@@ -119,6 +119,18 @@ export {
 } from "./components/table.tsx";
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./components/tooltip.tsx";
 
+export { TranslateDialog } from "./components/translate-dialog.tsx";
+export type {
+  TranslateDialogProps,
+  TranslateDialogTranslations,
+  TranslateResult,
+} from "./components/translate-dialog.tsx";
+export { TranslateButton } from "./components/translate-button.tsx";
+export type {
+  TranslateButtonProps,
+  TranslateButtonTranslations,
+} from "./components/translate-button.tsx";
+
 // App-level components
 export { DeleteConfirmDialog } from "./components/delete-confirm-dialog.tsx";
 export type { DeleteConfirmDialogProps } from "./components/delete-confirm-dialog.tsx";
