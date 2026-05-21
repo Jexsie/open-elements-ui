@@ -25,6 +25,29 @@ if ! [[ "$2" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   exit 1
 fi
 
+check_token() {
+  local name="$1"
+  local value="$2"
+  local url="$3"
+
+  if [ -z "$value" ]; then
+    echo "❌ $name is not set. Add it to .env."
+    exit 1
+  fi
+
+  local status
+  status=$(curl -sS -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $value" "$url")
+
+  case "$status" in
+    200) echo "✅ $name is valid" ;;
+    401) echo "❌ $name is invalid or expired (HTTP 401 from $url)"; exit 1 ;;
+    *)   echo "❌ Could not validate $name (HTTP $status from $url)"; exit 1 ;;
+  esac
+}
+
+check_token "NPM_TOKEN" "$NPM_TOKEN" "https://registry.npmjs.org/-/whoami"
+check_token "GH_TOKEN"  "$GH_TOKEN"  "https://api.github.com/user"
+
 NEW_VERSION="$1"
 NEXT_VERSION="$2"
 
