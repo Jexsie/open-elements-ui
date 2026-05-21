@@ -3,4 +3,3 @@ dist/
 *.tsbuildinfo
 .env
 .claude/settings.local.json
-.npmrc
