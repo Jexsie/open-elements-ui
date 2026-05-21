@@ -26,8 +26,7 @@ function renderDialog(props: {
   readonly onOpenChange?: (open: boolean) => void;
   readonly language?: "de" | "en";
 }) {
-  const onTranslate =
-    props.onTranslate ?? vi.fn().mockResolvedValue({ translatedText: "Hello" });
+  const onTranslate = props.onTranslate ?? vi.fn().mockResolvedValue({ translatedText: "Hello" });
   const onOpenChange = props.onOpenChange ?? vi.fn();
   const utils = render(
     <LanguageProvider translations={dummyTranslations} defaultLanguage={props.language ?? "en"}>

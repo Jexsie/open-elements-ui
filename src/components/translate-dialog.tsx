@@ -3,13 +3,7 @@
 import { useEffect, useState } from "react";
 import { Check, Copy, Loader2 } from "lucide-react";
 import { Button } from "./button.tsx";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "./dialog.tsx";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "./dialog.tsx";
 import { useLanguage } from "../i18n/language-context.tsx";
 
 export interface TranslateResult {
