@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write # create the GitHub release
+  id-token: write # OIDC token for npm trusted publishing
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Verify tag matches package.json version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Tag '$TAG' is not a valid release tag. Expected format 'vA.B.C', e.g. 'v0.8.0'."
+            exit 1
+          fi
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          if [ "$PKG_VERSION" != "$VERSION" ]; then
+            echo "::error::Tag '$TAG' (version '$VERSION') does not match package.json version '$PKG_VERSION'. Bump the version in package.json to match the tag before releasing."
+            exit 1
+          fi
+          echo "✅ Tag '$TAG' matches package.json version '$PKG_VERSION'."
+
+      # No version pinned here on purpose: action-setup reads it from the
+      # "packageManager" field in package.json, keeping CI and local in sync.
+      # Staged publishing needs pnpm >= 11.3, OIDC trusted publishing >= 11.0.7.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run typecheck
+      - run: pnpm run lint
+      - run: pnpm run format:check
+      - run: pnpm run test
+      - run: pnpm run build
+
+      # Uploads the tarball to the npm staging queue via OIDC — no NPM_TOKEN needed
+      # (pnpm auto-detects the GitHub Actions OIDC token via id-token: write).
+      # Provenance is generated automatically for public repos. The version does NOT
+      # go live here: a maintainer must approve it with 2FA afterwards, either on
+      # npmjs.com or via `pnpm stage approve <stage-id>`.
+      - name: Stage publish to npm
+        run: pnpm stage publish --access public --no-git-checks
+
+      # Created as a draft so the GitHub release is published by hand together with
+      # the npm approval — keeping both behind the same human 2FA gate.
+      - name: Create draft GitHub release
+        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag --draft
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
