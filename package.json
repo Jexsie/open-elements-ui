@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/OpenElementsLabs/open-elements-ui.git"
   },
+  "packageManager": "pnpm@11.3.0",
+  "engines": {
+    "node": "24"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
