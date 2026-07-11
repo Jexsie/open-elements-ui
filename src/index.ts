@@ -139,6 +139,8 @@ export type { DetailFieldProps, DetailFieldTranslations } from "./components/det
 export { LanguageSwitch } from "./components/language-switch.tsx";
 export { HealthStatus } from "./components/health-status.tsx";
 export type { HealthStatusProps, HealthStatusTranslations } from "./components/health-status.tsx";
+export { CapabilityStatus } from "./components/capability-status.tsx";
+export type { CapabilityStatusProps } from "./components/capability-status.tsx";
 export { TagChips } from "./components/tag-chips.tsx";
 export type { TagChipsProps } from "./components/tag-chips.tsx";
 export { TagForm } from "./components/tag-form.tsx";
