@@ -10,15 +10,40 @@ import type { MarkdownViewProps } from "../types/index.ts";
 /** The ProseMirror document node type, without a direct `@tiptap/pm` dependency. */
 type ProseMirrorNode = NodeWithPos["node"];
 
-/** Resolve a node's document position by identity and return -1 if it is gone. */
-function positionOf(editor: Editor, target: ProseMirrorNode): number {
+/**
+ * Resolve the document position of the task item whose checkbox was just
+ * toggled to `checked`.
+ *
+ * The `node` handed to `onReadOnlyChecked` cannot be trusted for this: the
+ * extension-list node view is reused across updates, so its closure keeps the
+ * node from creation and goes stale after the first toggle. Instead we locate
+ * the clicked item by DOM: at the moment of the click exactly one `<li>` has a
+ * live checkbox that disagrees with its `data-checked` attribute (the document
+ * has not been updated yet). DOM order matches document order, so its index
+ * among the task-item `<li>`s maps directly to the nth `taskItem` node.
+ */
+function positionOfToggled(editor: Editor, checked: boolean): number {
+  const items = Array.from(
+    editor.view.dom.querySelectorAll<HTMLElement>("li[data-checked]"),
+  );
+  const clickedIndex = items.findIndex((li) => {
+    const input = li.querySelector<HTMLInputElement>("input[type=checkbox]");
+    return input != null && input.checked === checked && li.dataset.checked !== String(checked);
+  });
+  if (clickedIndex === -1) return -1;
+
+  let seen = 0;
   let position = -1;
   editor.state.doc.descendants((node, pos) => {
-    if (node === target) {
-      position = pos;
-      return false;
+    if (position !== -1) return false; // already found — stop searching
+    if (node.type.name === "taskItem") {
+      if (seen === clickedIndex) {
+        position = pos;
+        return false;
+      }
+      seen += 1;
     }
-    return position === -1;
+    return true;
   });
   return position;
 }
@@ -40,19 +65,20 @@ export function MarkdownView({ content, onChange }: MarkdownViewProps) {
   }, []);
 
   const handleReadOnlyChecked = useCallback(
-    (node: ProseMirrorNode, checked: boolean): boolean => {
+    (_node: ProseMirrorNode, checked: boolean): boolean => {
       const editor = editorRef.current;
       // Swallow the click (node view reverts it) when there is no consumer to
       // report to, or while a save is already in flight.
       if (!editor || !onChangeRef.current || busyRef.current) return false;
 
-      const position = positionOf(editor, node);
+      const position = positionOfToggled(editor, checked);
       if (position === -1) return false;
 
       // Apply the toggle to the document ourselves — the read-only node view
       // does not touch the document, only the DOM checkbox.
+      const current = editor.state.doc.nodeAt(position);
       editor.view.dispatch(
-        editor.state.tr.setNodeMarkup(position, undefined, { ...node.attrs, checked }),
+        editor.state.tr.setNodeMarkup(position, undefined, { ...current?.attrs, checked }),
       );
 
       const markdown = editor.storage.markdown.getMarkdown();
