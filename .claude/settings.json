@@ -1,0 +1,7 @@
+{
+  "enabledPlugins": {
+    "agentic-support-workflow@open-elements": true,
+    "agentic-support-open-elements@open-elements-company": true,
+    "agentic-support-coding@open-elements-coding": true
+  }
+}
