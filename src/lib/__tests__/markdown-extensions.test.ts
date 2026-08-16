@@ -152,11 +152,20 @@ function hasTaskList(editor: Editor): boolean {
   return (editor.getJSON().content ?? []).some((node) => node.type === "taskList");
 }
 
+/**
+ * Dispatch the task-list creation shortcut (`Mod-Shift-9`). jsdom is treated as a
+ * non-Mac platform by prosemirror-keymap, so `Mod` resolves to Ctrl — sending
+ * both metaKey and ctrlKey would fail to match the binding.
+ */
+function pressTaskListShortcut(editor: Editor): void {
+  editor.commands.focus();
+  pressKey(editor, { key: "9", code: "Digit9", ctrlKey: true, shiftKey: true });
+}
+
 describe("createMarkdownExtensions — task list creation stays closed", () => {
   it("does nothing when Mod-Shift-9 is pressed", () => {
     const editor = mountEditor("<p></p>");
-    editor.commands.focus();
-    pressKey(editor, { key: "9", code: "Digit9", metaKey: true, ctrlKey: true, shiftKey: true });
+    pressTaskListShortcut(editor);
     expect(hasTaskList(editor)).toBe(false);
   });
 
@@ -196,5 +205,53 @@ describe("createMarkdownExtensions — editing an existing task list", () => {
     editor.commands.focus("end");
     pressKey(editor, { key: "Tab", code: "Tab", shiftKey: true });
     expect(editor.storage.markdown.getMarkdown()).toBe("- [ ] parent\n- [ ] child");
+  });
+});
+
+describe("createMarkdownExtensions — task list creation gate follows allowedActions", () => {
+  it("keeps creation closed when taskList is not among the allowed actions", () => {
+    const shortcutEditor = mountEditor(
+      "<p></p>",
+      createMarkdownExtensions({ allowedActions: ["bold", "italic"] }),
+    );
+    pressTaskListShortcut(shortcutEditor);
+    expect(hasTaskList(shortcutEditor)).toBe(false);
+
+    const ruleEditor = mountEditor(
+      "<p></p>",
+      createMarkdownExtensions({ allowedActions: ["bold", "italic"] }),
+    );
+    typeSpaceAfterBracket(ruleEditor);
+    expect(hasTaskList(ruleEditor)).toBe(false);
+  });
+
+  it("opens the keyboard shortcut when taskList is allowed", () => {
+    const editor = mountEditor("<p></p>", createMarkdownExtensions({ allowedActions: ["taskList"] }));
+    pressTaskListShortcut(editor);
+    expect(hasTaskList(editor)).toBe(true);
+  });
+
+  it("opens the '[ ] ' input rule when taskList is allowed", () => {
+    const editor = mountEditor("<p></p>", createMarkdownExtensions({ allowedActions: ["taskList"] }));
+    typeSpaceAfterBracket(editor);
+    expect(hasTaskList(editor)).toBe(true);
+  });
+
+  it("keeps a stored task list editable even when creation is gated", () => {
+    const editor = mountEditor("- [x] Done", createMarkdownExtensions({ allowedActions: [] }));
+    editor.commands.focus("end");
+    pressKey(editor, { key: "Enter", code: "Enter" });
+    const md = editor.storage.markdown.getMarkdown();
+    expect(md).toContain("- [x] Done");
+    expect(md.split("\n").some((line) => line.startsWith("- [ ]"))).toBe(true);
+  });
+
+  it("round-trips a stored task list unchanged when creation is gated", () => {
+    const editor = new Editor({
+      extensions: createMarkdownExtensions({ allowedActions: [] }),
+      content: "- [x] Done",
+    });
+    editors.push(editor);
+    expect(editor.storage.markdown.getMarkdown()).toBe("- [x] Done");
   });
 });
