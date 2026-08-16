@@ -152,6 +152,7 @@ function ToolbarButton({
       type="button"
       title={label}
       aria-label={label}
+      aria-pressed={active}
       onClick={onClick}
       className={cn(
         "rounded p-1.5 transition-colors",
@@ -215,6 +216,10 @@ export function MarkdownEditor({ value, onChange, placeholder, toolbar }: Markdo
     }),
     content: value,
     immediatelyRender: false,
+    // Re-render the toolbar on every transaction so active states and the
+    // contextual Unlink button track the cursor. TipTap v3 defaults this to
+    // false, which would freeze the toolbar's active styling as the user moves.
+    shouldRerenderOnTransaction: true,
     onUpdate: ({ editor: ed }) => {
       onChange(ed.storage.markdown.getMarkdown());
     },

@@ -255,3 +255,30 @@ describe("createMarkdownExtensions — task list creation gate follows allowedAc
     expect(editor.storage.markdown.getMarkdown()).toBe("- [x] Done");
   });
 });
+
+describe("createMarkdownExtensions — marks stay reachable regardless of allowedActions", () => {
+  it("applies bold via Mod-b even when only italic is offered", () => {
+    const editor = mountEditor(
+      "<p>hello</p>",
+      createMarkdownExtensions({ allowedActions: ["italic"] }),
+    );
+    editor.commands.selectAll();
+    pressKey(editor, { key: "b", code: "KeyB", ctrlKey: true });
+    expect(editor.storage.markdown.getMarkdown()).toBe("**hello**");
+  });
+
+  it("completes the **bold** input rule even when only italic is offered", () => {
+    // `<p>...</p>` is parsed as literal HTML text, so the incomplete `**bold*`
+    // survives to the document and the closing `*` triggers the bold input rule.
+    const editor = mountEditor(
+      "<p>**bold*</p>",
+      createMarkdownExtensions({ allowedActions: ["italic"] }),
+    );
+    editor.commands.focus("end");
+    const { from } = editor.state.selection;
+    editor.view.someProp("handleTextInput", (handler) =>
+      handler(editor.view, from, from, "*", () => editor.state.tr),
+    );
+    expect(editor.storage.markdown.getMarkdown()).toBe("**bold**");
+  });
+});
