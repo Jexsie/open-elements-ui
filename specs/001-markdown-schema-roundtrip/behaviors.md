@@ -168,3 +168,14 @@
 - **Given** an editor built from `createMarkdownExtensions()`
 - **When** it is loaded with a plain paragraph containing no Markdown syntax
 - **Then** the serialized Markdown is byte-identical to the input
+
+---
+
+## Drift Log
+
+### 2026-08-16 — Caused by spec `002-markdown-toolbar-actions`
+
+- **Affected scenario:** The toolbar is unchanged
+- **Original behavior:** The `MarkdownEditor` toolbar offered exactly Bold, Italic, Strikethrough and Link (plus Unlink inside a link), fixed for every usage.
+- **Current behavior:** The toolbar is configured per usage via a `toolbar` allowlist prop, and its default dropped to `["bold", "italic"]`. Strikethrough and Link are no longer shown unless declared. Stored content is unaffected — links and strikethrough still render and round-trip.
+- **Reason:** Spec 002 makes the toolbar composable per field; the fixed four-button toolbar from spec 001 was intentionally superseded (spec 001's design already noted this would be handled in spec 002).
