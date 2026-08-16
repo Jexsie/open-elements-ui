@@ -1,13 +1,10 @@
 "use client";
 
 import { useEditor, EditorContent, type Editor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
-import { Markdown } from "tiptap-markdown";
 import { Bold, Italic, Strikethrough, Link as LinkIcon, Unlink } from "lucide-react";
 import { useEffect, useCallback } from "react";
 import { cn } from "../lib/utils.ts";
+import { createMarkdownExtensions } from "../lib/markdown-extensions.ts";
 import type { MarkdownEditorProps } from "../types/index.ts";
 
 function ToolbarButton({
@@ -95,23 +92,7 @@ function Toolbar({ editor }: { readonly editor: Editor | null }) {
 
 export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorProps) {
   const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        heading: false,
-        codeBlock: false,
-        blockquote: false,
-        horizontalRule: false,
-        bulletList: false,
-        orderedList: false,
-        listItem: false,
-      }),
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: { class: "text-blue-600 underline" },
-      }),
-      Placeholder.configure({ placeholder: placeholder ?? "" }),
-      Markdown,
-    ],
+    extensions: createMarkdownExtensions({ placeholder, openLinksOnClick: false }),
     content: value,
     immediatelyRender: false,
     onUpdate: ({ editor: ed }) => {
