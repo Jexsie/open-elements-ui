@@ -54,10 +54,33 @@ export interface UserMultiSelectProps {
   readonly translations: UserMultiSelectTranslations;
 }
 
+/**
+ * A single action offered in the {@link MarkdownEditorProps.toolbar}. Names follow
+ * the underlying TipTap node/mark names so the mapping to commands is obvious.
+ * Unlink is deliberately absent — it is rendered contextually as part of `"link"`.
+ */
+export type MarkdownToolbarAction =
+  | "bold"
+  | "italic"
+  | "strike"
+  | "code"
+  | "link"
+  | "h1"
+  | "h2"
+  | "h3"
+  | "bulletList"
+  | "orderedList"
+  | "taskList"
+  | "blockquote"
+  | "codeBlock"
+  | "horizontalRule";
+
 export interface MarkdownEditorProps {
   readonly value: string;
   readonly onChange: (value: string) => void;
   readonly placeholder?: string;
+  /** Actions offered in the toolbar, in render order. Defaults to `["bold", "italic"]`. */
+  readonly toolbar?: readonly MarkdownToolbarAction[];
 }
 
 export interface MarkdownViewProps {

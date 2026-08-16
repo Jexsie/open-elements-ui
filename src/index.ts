@@ -190,6 +190,7 @@ export type {
   UserMultiSelectTranslations,
   MarkdownEditorProps,
   MarkdownViewProps,
+  MarkdownToolbarAction,
 } from "./types/index.ts";
 
 // Utilities
