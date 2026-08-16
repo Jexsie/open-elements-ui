@@ -1,5 +1,8 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { Editor } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
+import { TaskList, TaskItem } from "@tiptap/extension-list";
+import { Markdown } from "tiptap-markdown";
 import { createMarkdownExtensions } from "../markdown-extensions.ts";
 
 /**
@@ -117,5 +120,81 @@ describe("createMarkdownExtensions — marks Markdown cannot express", () => {
     expect(editor.schema.marks.underline).toBeUndefined();
     editor.commands.selectAll();
     expect(() => editor.chain().setMark("underline").run()).toThrow();
+  });
+});
+
+/** Mount a real editor attached to the DOM so keyboard handling is active. */
+function mountEditor(content: string, extensions = createMarkdownExtensions()): Editor {
+  const element = document.createElement("div");
+  document.body.appendChild(element);
+  const editor = new Editor({ element, extensions, content });
+  editors.push(editor);
+  return editor;
+}
+
+function pressKey(editor: Editor, init: KeyboardEventInit): void {
+  editor.view.dom.dispatchEvent(
+    new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init }),
+  );
+}
+
+/** Simulate typing the trailing space of "[ ] " so a task-item input rule would fire. */
+function typeSpaceAfterBracket(editor: Editor): void {
+  editor.commands.setContent("<p>[ ]</p>");
+  editor.commands.focus("end");
+  const { from } = editor.state.selection;
+  editor.view.someProp("handleTextInput", (handler) =>
+    handler(editor.view, from, from, " ", () => editor.state.tr),
+  );
+}
+
+function hasTaskList(editor: Editor): boolean {
+  return (editor.getJSON().content ?? []).some((node) => node.type === "taskList");
+}
+
+describe("createMarkdownExtensions — task list creation stays closed", () => {
+  it("does nothing when Mod-Shift-9 is pressed", () => {
+    const editor = mountEditor("<p></p>");
+    editor.commands.focus();
+    pressKey(editor, { key: "9", code: "Digit9", metaKey: true, ctrlKey: true, shiftKey: true });
+    expect(hasTaskList(editor)).toBe(false);
+  });
+
+  it("does nothing when the user types '[ ] ' — the literal text remains", () => {
+    const editor = mountEditor("<p></p>");
+    typeSpaceAfterBracket(editor);
+    expect(hasTaskList(editor)).toBe(false);
+    expect(editor.getText()).toContain("[ ]");
+  });
+
+  it("guard: the same '[ ] ' input DOES create a task list with the default TaskItem", () => {
+    // Proves the simulated input rule genuinely fires, so the stripped-rule
+    // assertion above cannot silently pass if the trigger stops working.
+    const editor = mountEditor("<p></p>", [
+      StarterKit.configure({ underline: false }),
+      TaskList,
+      TaskItem.configure({ nested: true }),
+      Markdown,
+    ]);
+    typeSpaceAfterBracket(editor);
+    expect(hasTaskList(editor)).toBe(true);
+  });
+});
+
+describe("createMarkdownExtensions — editing an existing task list", () => {
+  it("splits a task item into a new unchecked item on Enter", () => {
+    const editor = mountEditor("- [x] Done");
+    editor.commands.focus("end");
+    pressKey(editor, { key: "Enter", code: "Enter" });
+    const md = editor.storage.markdown.getMarkdown();
+    expect(md).toContain("- [x] Done");
+    expect(md.split("\n").some((line) => line.startsWith("- [ ]"))).toBe(true);
+  });
+
+  it("lifts a nested item one level on Shift-Tab", () => {
+    const editor = mountEditor("- [ ] parent\n  - [ ] child");
+    editor.commands.focus("end");
+    pressKey(editor, { key: "Tab", code: "Tab", shiftKey: true });
+    expect(editor.storage.markdown.getMarkdown()).toBe("- [ ] parent\n- [ ] child");
   });
 });
