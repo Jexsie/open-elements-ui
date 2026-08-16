@@ -36,7 +36,20 @@ export function createMarkdownExtensions(options?: MarkdownExtensionsOptions): E
   const openLinksOnClick = options?.openLinksOnClick ?? false;
 
   // Strip the creation paths while keeping the in-list editing shortcuts.
-  const TaskListNode = TaskList.extend({ addKeyboardShortcuts: () => ({}) });
+  // The `tight` attribute makes the Markdown serializer render task lists
+  // tightly (no blank line between items), matching how tiptap-markdown already
+  // treats bullet and ordered lists. Without it, prosemirror-markdown falls back
+  // to a loose list and a multi-item checklist no longer round-trips byte-for-byte.
+  // `rendered: false` keeps the attribute out of the DOM so it is not persisted.
+  const TaskListNode = TaskList.extend({
+    addKeyboardShortcuts: () => ({}),
+    addAttributes() {
+      return {
+        ...this.parent?.(),
+        tight: { default: true, rendered: false },
+      };
+    },
+  });
   const TaskItemNode = TaskItem.extend({ addInputRules: () => [] });
 
   return [
