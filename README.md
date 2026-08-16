@@ -15,7 +15,7 @@ This package contains extracted UI components from the Open CRM frontend, design
 - **Combobox** — Searchable dropdown with chip support (based on Base UI)
 - **TagMultiSelect** — Multi-select tag picker with colored chips
 - **MarkdownEditor** — WYSIWYG Markdown editor that round-trips all supported Markdown constructs without data loss; toolbar actions are configurable per usage via the `toolbar` prop
-- **MarkdownView** — Read-only Markdown renderer with structural output (headings, lists, task lists, blockquotes, code)
+- **MarkdownView** — Read-only Markdown renderer with structural output (headings, lists, task lists, blockquotes, code); task-list checkboxes become interactive via an optional `onChange` (optimistic update with rollback)
 
 ## Usage
 
