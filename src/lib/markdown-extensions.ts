@@ -1,9 +1,12 @@
-import type { Extensions } from "@tiptap/core";
+import type { Extensions, NodeWithPos } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import { TaskList, TaskItem } from "@tiptap/extension-list";
 import Placeholder from "@tiptap/extension-placeholder";
 import { Markdown } from "tiptap-markdown";
 import type { MarkdownToolbarAction } from "../types/index.ts";
+
+/** The ProseMirror document node type, re-derived without a direct `@tiptap/pm` dependency. */
+type ProseMirrorNode = NodeWithPos["node"];
 
 /**
  * Options for {@link createMarkdownExtensions}.
@@ -21,6 +24,13 @@ export interface MarkdownExtensionsOptions {
    * stays closed. This never affects what the schema can parse or serialize.
    */
   readonly allowedActions?: readonly MarkdownToolbarAction[];
+  /**
+   * Invoked when a task-list checkbox is toggled while the editor is read-only.
+   * Return `true` to accept the toggle (the caller is responsible for applying
+   * it to the document) or `false` to revert the checkbox. Used by
+   * `MarkdownView` to make checklists interactive; omit for a read-only view.
+   */
+  readonly onReadOnlyChecked?: (node: ProseMirrorNode, checked: boolean) => boolean;
 }
 
 /**
@@ -89,6 +99,7 @@ export function createMarkdownExtensions(options?: MarkdownExtensionsOptions): E
     TaskItemNode.configure({
       nested: true,
       HTMLAttributes: { class: "flex items-start gap-2" },
+      onReadOnlyChecked: options?.onReadOnlyChecked,
     }),
     Placeholder.configure({ placeholder: options?.placeholder ?? "" }),
     Markdown,

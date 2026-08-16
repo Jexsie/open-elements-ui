@@ -85,4 +85,13 @@ export interface MarkdownEditorProps {
 
 export interface MarkdownViewProps {
   readonly content: string;
+  /**
+   * Called when the reader toggles a task list checkbox, with the complete
+   * updated Markdown. Omit to render checkboxes as read-only.
+   *
+   * Return a Promise to have the view disable interaction until it settles and
+   * revert the document if it rejects. Return nothing (`void`) to apply the
+   * toggle without a busy state or rollback.
+   */
+  readonly onChange?: (markdown: string) => void | Promise<void>;
 }
