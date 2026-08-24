@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "../src/styles/brand.css";
+
+@plugin "@tailwindcss/typography";
+
+/*
+ * The same content configuration a consuming app needs. Spec 001 recorded this
+ * as an unverified precondition: the library ships utility classes as source
+ * text, so they only become real CSS once something scans `src/`. If a story
+ * renders unstyled, the assumption was wrong — and it surfaces here rather
+ * than in an application.
+ */
+@source "../src";
+@source "../stories";

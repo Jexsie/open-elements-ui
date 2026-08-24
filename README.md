@@ -32,11 +32,52 @@ Import brand CSS in your app's stylesheet:
 @import "@open-elements/ui/src/styles/brand.css";
 ```
 
+Because this package ships raw `.tsx`, its utility classes reach your app as source text. Tailwind
+only turns them into CSS if it scans the library, so the consuming app must point at it and load the
+typography plugin that `MarkdownView` relies on:
+
+```css
+@import "tailwindcss";
+@import "@open-elements/ui/src/styles/brand.css";
+@plugin "@tailwindcss/typography";
+@source "../node_modules/@open-elements/ui/src";
+```
+
+Without the `@source` line, components render unstyled — task list checkboxes pick up a `prose`
+bullet, for instance. The [component showcase](#component-showcase) uses the same configuration and
+asserts the result, so a break in this contract surfaces there.
+
 ## Translations
 
 ```typescript
 import { de, en } from "@open-elements/ui";
 ```
+
+## Component Showcase
+
+Every component can be opened in isolation, with its props adjustable at runtime, in a Storybook
+catalogue:
+
+```bash
+pnpm storybook        # dev server on http://localhost:6006
+pnpm build-storybook  # static build into storybook-static/
+```
+
+Stories live in [`stories/`](stories/), deliberately outside `src/`: `files` in `package.json`
+publishes all of `src/`, so a colocated story would ship in the tarball and break a consumer's `tsc`
+on unresolvable `@storybook/*` imports. Nothing under `src/` imports Storybook, and Tailwind is a
+devDependency that no build script consumes — the published package is unaffected.
+
+Stories carry `play` functions, which run in a real browser and cover what jsdom can only check
+indirectly: the toolbar allowlist, the task-list creation gate under actual keystrokes, the
+checkbox lifecycle after actual clicks, and that the Tailwind utilities the components rely on
+resolve to real styles. They are additive; the vitest suites are unchanged.
+
+`MarkdownEditor` and `MarkdownView` establish the pattern. The remaining components follow
+incrementally.
+
+Deployment of the showcase is documented in
+[docs/showcase-deployment.md](docs/showcase-deployment.md).
 
 ## Releasing a New Version
 

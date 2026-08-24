@@ -1,0 +1,17 @@
+# Never ship a host build into the image — it would mask a broken build.
+node_modules
+dist
+storybook-static
+*.tsbuildinfo
+
+.git
+.github
+.idea
+.claude
+.env
+.env.*
+
+docs
+specs
+*.md
+!README.md
