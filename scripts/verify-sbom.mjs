@@ -51,4 +51,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log("SBOM verification passed: sbom.cdx.json and sbom-dev.cdx.json are valid and consistent.");
+console.log(
+  "SBOM verification passed: sbom.cdx.json and sbom-dev.cdx.json are valid and consistent.",
+);

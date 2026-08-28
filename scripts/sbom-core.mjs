@@ -144,7 +144,9 @@ export function verifyStructure({ prod, dev, pkg }) {
     }
     const supplier = bom.metadata?.supplier?.name;
     if (supplier !== SUPPLIER_NAME) {
-      errors.push(`${label}: metadata.supplier.name is "${supplier ?? "<missing>"}", expected "${SUPPLIER_NAME}".`);
+      errors.push(
+        `${label}: metadata.supplier.name is "${supplier ?? "<missing>"}", expected "${SUPPLIER_NAME}".`,
+      );
     }
   }
 
@@ -152,10 +154,14 @@ export function verifyStructure({ prod, dev, pkg }) {
   const runtimeExpected = [...Object.keys(dependencies), ...Object.keys(peerDependencies)];
   const runtime = symmetricDiff(rootEdgeNames(prod), runtimeExpected);
   for (const name of runtime.missing) {
-    errors.push(`sbom.cdx.json: root component is missing a dependsOn edge for declared dependency "${name}".`);
+    errors.push(
+      `sbom.cdx.json: root component is missing a dependsOn edge for declared dependency "${name}".`,
+    );
   }
   for (const name of runtime.extra) {
-    errors.push(`sbom.cdx.json: root component has an extra dependsOn edge for "${name}" not declared in package.json.`);
+    errors.push(
+      `sbom.cdx.json: root component has an extra dependsOn edge for "${name}" not declared in package.json.`,
+    );
   }
 
   // Every peer: also a devDependency, present as a component with an exact version and the marker.
@@ -168,7 +174,9 @@ export function verifyStructure({ prod, dev, pkg }) {
     }
     const component = prodByName.get(name);
     if (!component) {
-      errors.push(`sbom.cdx.json: peerDependency "${name}" (${range}) is missing from the runtime SBOM.`);
+      errors.push(
+        `sbom.cdx.json: peerDependency "${name}" (${range}) is missing from the runtime SBOM.`,
+      );
       continue;
     }
     if (!component.version) {
