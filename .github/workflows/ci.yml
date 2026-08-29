@@ -24,3 +24,10 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run test
       - run: pnpm run build
+
+      # Generate both SBOMs and verify them against package.json, so a dependency
+      # change that breaks the SBOM turns the pull request red before it reaches a release.
+      - name: Generate and verify SBOM
+        run: |
+          pnpm run sbom
+          pnpm run sbom:verify

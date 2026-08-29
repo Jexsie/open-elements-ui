@@ -59,7 +59,7 @@ and local development use the same version with no additional entry and no addit
 | File | Content | Command | Status |
 |------|---------|---------|--------|
 | `sbom.cdx.json` | `dependencies` (transitive) + enriched `peerDependencies` | `pnpm sbom --prod` | **Authoritative** for CRA requests |
-| `sbom-dev.cdx.json` | `dependencies` + `devDependencies` (build toolchain) | `pnpm sbom --dev` | Transparency, not authoritative |
+| `sbom-dev.cdx.json` | `devDependencies` (build toolchain) | `pnpm sbom --dev` | Transparency, not authoritative |
 
 CycloneDX spec version **1.7** (pnpm's default), `--sbom-type library`,
 `--sbom-supplier "Open Elements GmbH"`, `--sbom-authors "Open Elements GmbH"`. The supplier is the field
@@ -122,7 +122,9 @@ library) as the schema validator:
    `peerDependencies` — no more, no less.
 6. Every `peerDependency` is present as a component with an exact version and a `cdx:npm:peer` property.
 7. Every `peerDependency` is also declared as a `devDependency`.
-8. Dev SBOM: the root's `dependsOn` edges cover `dependencies` + `devDependencies`.
+8. Dev SBOM: the root's `dependsOn` edges cover `devDependencies` (the build toolchain). `pnpm sbom
+   --dev` scopes the root to `devDependencies` only; the runtime tree is covered authoritatively by the
+   prod document, so it is not re-checked here.
 
 **Where it runs:** as a step in `ci.yml` on every pull request and push to `main`, and in `release.yml`
 before publishing. Deliberately not as a Vitest test — generating an SBOM shells out to `pnpm sbom` and
@@ -163,8 +165,8 @@ sequenceDiagram
 ## Dependencies
 
 - `pnpm` 11.3.0 — already pinned via `packageManager`; provides `pnpm sbom`.
-- `@cyclonedx/cyclonedx-library` — new devDependency, schema validation only. Runs in `ci.yml`, which
-  holds no publish rights.
+- `@cyclonedx/cyclonedx-library` — new devDependency, schema validation only, plus its required optional
+  peers `ajv`, `ajv-formats` and `ajv-formats-draft2019`. Runs in `ci.yml`, which holds no publish rights.
 - `gh` CLI — already used by `release.yml`.
 
 ## Security considerations
@@ -193,9 +195,10 @@ Next.js applications (which additionally need the application-wide SBOM feature)
 
 ## Open questions
 
-- **Does `@cyclonedx/cyclonedx-library` ship the CycloneDX 1.7 JSON schema?** 1.7 is recent. If the
-  installed version validates only up to 1.6, the choice is to bump the library or to fall back to
-  `--sbom-spec-version 1.6`. To be resolved during implementation — it does not change the design, only
-  one flag.
+- **Does `@cyclonedx/cyclonedx-library` ship the CycloneDX 1.7 JSON schema?** ~~1.7 is recent.~~
+  **Resolved during implementation:** `@cyclonedx/cyclonedx-library` 10.2.0 validates CycloneDX 1.7
+  (`Validation.JsonValidator("1.7")`). Its `JsonValidator` requires the optional peers `ajv`,
+  `ajv-formats` and `ajv-formats-draft2019`, which are added as devDependencies alongside it. They run
+  only in `ci.yml` (no publish rights), consistent with the security stance above.
 - **Consumer-side tolerance for 1.7.** Older scanners and Dependency-Track versions may reject an unknown
   spec version. Accepted for now; revisit when the Dependency-Track instance exists.
