@@ -53,6 +53,14 @@ jobs:
       - run: pnpm run test
       - run: pnpm run build
 
+      # Generate and verify the SBOMs BEFORE anything is published. A failure here aborts
+      # the job while the tag can still be re-cut: no release ever ships without a valid SBOM,
+      # and no version reaches the npm staging queue without one.
+      - name: Generate and verify SBOM
+        run: |
+          pnpm run sbom
+          pnpm run sbom:verify
+
       # Uploads the tarball to the npm staging queue via OIDC — no NPM_TOKEN needed
       # (pnpm auto-detects the GitHub Actions OIDC token via id-token: write).
       # Provenance is generated automatically for public repos. The version does NOT
@@ -62,8 +70,15 @@ jobs:
         run: pnpm stage publish --access public --no-git-checks
 
       # Created as a draft so the GitHub release is published by hand together with
-      # the npm approval — keeping both behind the same human 2FA gate.
-      - name: Create draft GitHub release
-        run: gh release create "${GITHUB_REF_NAME}" --generate-notes --verify-tag --draft
+      # the npm approval — keeping both behind the same human 2FA gate. Both SBOMs are
+      # attached as assets; the --notes text names sbom.cdx.json as the authoritative
+      # document so an auditor answering a supplier assessment picks the right one.
+      - name: Create draft GitHub release with SBOM assets
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --generate-notes --verify-tag --draft \
+            --notes "**SBOM:** \`sbom.cdx.json\` is the authoritative CycloneDX SBOM for this release (runtime dependencies, including peer dependencies). \`sbom-dev.cdx.json\` covers the build toolchain only and is not authoritative." \
+            'sbom/sbom.cdx.json#Authoritative runtime SBOM (CycloneDX)' \
+            'sbom/sbom-dev.cdx.json#Build toolchain SBOM (non-authoritative)'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

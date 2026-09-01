@@ -79,6 +79,33 @@ incrementally.
 Deployment of the showcase is documented in
 [docs/showcase-deployment.md](docs/showcase-deployment.md).
 
+## Software Bill of Materials (SBOM)
+
+Every release publishes two [CycloneDX](https://cyclonedx.org/) 1.7 SBOMs as assets on its
+[GitHub Release](https://github.com/OpenElementsLabs/open-elements-ui/releases), so a specific
+published version can be obtained without an `npm install`:
+
+| Asset               | Contents                                                               | Authoritative?                                                     |
+| ------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `sbom.cdx.json`     | Runtime dependencies (transitive) plus the library's peer dependencies | **Yes** — use this for supplier assessments (Cyber Resilience Act) |
+| `sbom-dev.cdx.json` | The build toolchain (`devDependencies`)                                | No — provided for transparency only                                |
+
+Both are generated locally with the pinned `pnpm` (`pnpm sbom`) and verified in CI on every pull
+request, so a dependency change that breaks the SBOM turns the build red. A release cannot ship without
+a valid SBOM.
+
+```bash
+pnpm sbom          # writes sbom/sbom.cdx.json and sbom/sbom-dev.cdx.json (gitignored)
+pnpm sbom:verify   # validates both against the CycloneDX 1.7 schema and package.json
+```
+
+**Peer dependencies.** `radix-ui`, `@base-ui/react`, `lucide-react`, `react` and `react-dom` are peer
+dependencies: the consumer supplies them. `pnpm sbom` alone omits them, so they are added to
+`sbom.cdx.json` and marked with a `cdx:npm:peer` property holding the declared range. The **version**
+recorded for each peer is the one resolved in _this repository's_ lockfile, not the one a consumer
+installs — it changes when we bump our own devDependencies, even though nothing changes for the
+consumer. Read a peer's `cdx:npm:peer` range, not its pinned version, as the requirement.
+
 ## Releasing a New Version
 
 Every release must be published to npm **and** have a corresponding Git tag and GitHub Release.
